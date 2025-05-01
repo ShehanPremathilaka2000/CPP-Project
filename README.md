@@ -51,38 +51,6 @@ Navigate to the `build` directory and run the application:
 ```
 The simulation will run in the terminal, showing an ASCII representation of particle density. It uses parameters from the `config.json` file located in the same directory.
 
-## Running Tests
-
-The project uses Google Test for unit testing.
-
-### Running All Tests
-Navigate to the `build` directory and run the test executable:
-```bash
-./quantum_tests
-```
-
-### Running Specific Tests
-You can run specific test suites or individual test cases using the `--gtest_filter` flag. The test suite names generally correspond to the C++ classes being tested (e.g., `ParticleTest`, `SimulationTest`, `ContainmentFieldTest`, `ParallelizationTest`).
-
-**Examples:**
-
-*   **Run all tests in the `ParallelizationTest` suite:**
-    ```bash
-    ./quantum_tests --gtest_filter=ParallelizationTest.*
-    ```
-*   **Run only the `EnergyManagement` test within the `ParticleTest` suite:**
-    ```bash
-    ./quantum_tests --gtest_filter=ParticleTest.EnergyManagement
-    ```
-*   **Run all tests whose names contain "Collision":**
-    ```bash
-    ./quantum_tests --gtest_filter=*Collision*
-    ```
-*   **Run all tests EXCEPT those in the `ParallelizationTest` suite:**
-    ```bash
-    ./quantum_tests --gtest_filter=-ParallelizationTest.*
-    ```
-
 ## Project Structure
 
 ```
