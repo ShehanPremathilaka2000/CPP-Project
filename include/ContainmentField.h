@@ -13,27 +13,21 @@ public:
     ContainmentField(const Config& config);
     ~ContainmentField();
 
-    // Field properties
     double getSize() const;
 
-    // Particle containment
-    bool isParticleContained(const Particle& particle) const;  // Bug: Incorrect bounds checking
-    double getContainmentForce(const Particle& particle) const;  // Bug: Incorrect force calculation
+    bool isParticleContained(const Particle& particle) const;
+    double getContainmentForce(const Particle& particle) const;
 
-    // Field strength
     void setFieldStrength(double strength);
     double getFieldStrength() const;
 
-    // Energy management
     double getFieldEnergy() const;
     void update(double dt);
 
-    // Decay rate
     void setDecayRate(double rate);
     double getDecayRate() const;
 
 private:
-    // Field properties
     double size;
     double fieldStrength;
     double fieldEnergy;
@@ -41,17 +35,14 @@ private:
     const size_t GRID_SIZE;
     std::vector<double> fieldData;
 
-    // Energy pulses
     struct EnergyPulse {
         double x, y;
         double strength;
         double lifetime;
     };
-    std::vector<EnergyPulse*> energyPulses;  // Bug: Raw pointers, potential memory leak
+    std::vector<EnergyPulse*> energyPulses;
 
-    // Thread safety
-    mutable std::mutex fieldMutex;  // Bug: Not properly used in all methods
+    mutable std::mutex fieldMutex;
 
-    // Helper methods
     void initializeField();
 }; 

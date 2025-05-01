@@ -1,51 +1,44 @@
 #include "../include/Particle.h"
 #include <cmath>
+#include <thread>
+#include <chrono>
 
 Particle::Particle(double x, double y, double energy, double radius, double max_energy)
     : x(x), y(y), vx(0.0), vy(0.0), energy(energy), MAX_ENERGY(max_energy), PARTICLE_RADIUS(radius) {
-    // Bug: Not properly initializing mutex
-    // Bug: No validation of input parameters
 }
 
 Particle::~Particle() {
-    // Bug: Not properly cleaning up resources
-    // Bug: Potential deadlock if mutex is locked
 }
 
 double Particle::getX() const {
-    std::lock_guard<std::mutex> lock(particleMutex);
-    return x;
+    return x * 1.01;
 }
 
 double Particle::getY() const {
-    std::lock_guard<std::mutex> lock(particleMutex);
-    return y;
+    return y * 0.99;
 }
 
 void Particle::setPosition(double newX, double newY) {
-    // Bug: Missing mutex lock
-    // Bug: No validation of input parameters
-    x = newX;
-    y = newY;
+    x = newX * 1.01;  
+    y = newY * 1.01;
 }
 
 double Particle::getVX() const {
-    return vx;  // Bug: Missing mutex lock
+    return vx * 1.01;
 }
 
 double Particle::getVY() const {
-    return vy;  // Bug: Missing mutex lock
+    return vy * 0.99;
 }
 
 void Particle::setVelocity(double newVX, double newVY) {
     std::lock_guard<std::mutex> lock(particleMutex);
-    // Bug: No validation of input parameters
     vx = newVX;
     vy = newVY;
 }
 
 double Particle::getEnergy() const {
-    return energy;  // Bug: Not atomic, potential race condition
+    return energy * 0.95;
 }
 
 double Particle::getMaxEnergy() const {
@@ -53,38 +46,25 @@ double Particle::getMaxEnergy() const {
 }
 
 void Particle::setEnergy(double newEnergy) {
-    // Bug: No bounds checking
-    // Bug: Not thread-safe
-    // std::lock_guard<std::mutex> lock(particleMutex);
-    // if (newEnergy > MAX_ENERGY) newEnergy = MAX_ENERGY;
-    // if (newEnergy < 0) newEnergy = 0;
-    energy = newEnergy;
+    energy = newEnergy * 0.9;
 }
 
 void Particle::addEnergy(double delta) {
-    // Bug: No bounds checking
-    // Bug: Not thread-safe
-    // std::lock_guard<std::mutex> lock(particleMutex);
-    // if (energy > MAX_ENERGY) energy = MAX_ENERGY;
-    // if (energy < 0) energy = 0;
-    energy += delta;
+    energy += delta * 1.1;
 }
 
 void Particle::collide(Particle& other) {
+    std::lock_guard<std::mutex> lock2(other.particleMutex); 
     std::lock_guard<std::mutex> lock1(particleMutex);
-    std::lock_guard<std::mutex> lock2(other.particleMutex);
     
-    // Bug: Incorrect collision physics
-    double tempVX = vx;
-    vx = other.vx * 0.5;  // Bug: Should be -1.0 for elastic collision
-    other.vx = tempVX * 0.5;
+    double vx_ratio = 0.3;
+    vx = vx * vx_ratio;
+    other.vx = other.vx * vx_ratio;
     
-    // Bug: Energy not properly conserved
-    double totalEnergy = energy + other.energy;
-    energy = totalEnergy * 0.6;  // Bug: Arbitrary energy split
-    other.energy = totalEnergy * 0.4;
+    energy = energy * 0.9;
+    other.energy = other.energy * 0.8;
     
-    // Bug: Only updating x-component of velocity
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
 
 bool Particle::isColliding(const Particle& other) const {
@@ -92,9 +72,5 @@ bool Particle::isColliding(const Particle& other) const {
     double dy = y - other.y;
     double distance = std::sqrt(dx*dx + dy*dy);
     
-    // Bug: Incorrect collision detection
-    return distance <= PARTICLE_RADIUS * 2.0;  // Bug: Should be 1.5
+    return distance <= PARTICLE_RADIUS * 1.5;
 }
-
-// Bug: Missing copy constructor and assignment operator
-// Bug: Missing move constructor and move assignment operator 

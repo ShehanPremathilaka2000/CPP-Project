@@ -3,31 +3,26 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <stdexcept> // For std::runtime_error
+#include <stdexcept> 
 #include <nlohmann/json.hpp>
 
-// Use the json namespace alias globally in this header if preferred, or scope it
 using json = nlohmann::json;
 
 struct Config {
-    // Simulation
     size_t num_particles = 500;
     double field_size = 10.0;
     size_t initial_threads = 4;
     double time_step = 0.01;
     unsigned int random_seed = 0;
 
-    // Particle
     double initial_energy = 100.0;
     double max_energy = 1000.0;
     double particle_radius = 1.0;
 
-    // Containment Field
     double initial_strength = 1.0;
     double initial_decay_rate = 0.1;
     size_t field_grid_size = 100;
 
-    // Rendering
     double target_fps = 30.0;
     int grid_width = 80;
     int grid_height = 24;

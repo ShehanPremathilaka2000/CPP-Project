@@ -13,43 +13,33 @@ public:
     ThreadManager(size_t numThreads);
     ~ThreadManager();
 
-    // Thread control
     void start();
     void stop();
-    void waitForCompletion();  // Bug: Potential deadlock
+    void waitForCompletion(); 
 
-    // Task management
-    void addTask(std::function<void()> task);  // Bug: Not thread-safe
+    void addTask(std::function<void()> task); 
     size_t getTaskCount() const;
 
-    // Thread configuration
     void setNumThreads(size_t numThreads);
     size_t getNumThreads() const;
 
-    // Performance monitoring
-    double getAverageThreadLoad() const;  // Bug: Race condition
     size_t getActiveThreadCount() const;
 
-    // Additional methods
     bool isRunning() const;
 
 private:
-    // Thread worker
-    void workerThread(size_t threadId);  // Bug: Improper synchronization
+    void workerThread(size_t threadId); 
 
-    // Task queue management
-    void processNextTask();  // Bug: Not atomic operation
+    void processNextTask(); 
 
-    // Data members
     std::vector<std::thread> threads;
     std::queue<std::function<void()>> taskQueue;
     mutable std::mutex taskMutex;
-    mutable std::mutex completionMutex;  // Bug: Potential deadlock with queueMutex
+    mutable std::mutex completionMutex; 
     std::condition_variable taskCondition;
     std::atomic<bool> running{false};
     std::atomic<size_t> activeThreads{0};
     size_t numThreads;
 
-    // Performance tracking
-    std::vector<std::atomic<size_t>> threadLoads;  // Bug: Not properly synchronized
-}; 
+    std::vector<std::atomic<size_t>> threadLoads; 
+};

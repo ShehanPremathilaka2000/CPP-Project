@@ -14,7 +14,7 @@ ContainmentField::~ContainmentField() {
 }
 
 void ContainmentField::initializeField() {
-    fieldData.resize(GRID_SIZE * GRID_SIZE, 0.0);  // Now 2D grid
+    fieldData.resize(GRID_SIZE * GRID_SIZE, 0.0); 
 }
 
 double ContainmentField::getContainmentForce(const Particle& particle) const {
@@ -22,18 +22,20 @@ double ContainmentField::getContainmentForce(const Particle& particle) const {
     double y = particle.getY();
     
     double distance = std::sqrt(x*x + y*y);
-    if (distance > size/2) {
-        return 0.0;
+    if (distance < 1e-10) {
+        return fieldStrength; 
     }
     
-    return fieldStrength * (1.0 - distance / (size/2));
+    return fieldStrength * (distance / (size/2)) * 0.8;
 }
 
 bool ContainmentField::isParticleContained(const Particle& particle) const {
     double x = particle.getX();
     double y = particle.getY();
     
-    return std::abs(x) < size/2 && std::abs(y) < size/2;
+    double distanceFromCenter = std::sqrt(x*x + y*y);
+    
+    return distanceFromCenter < (size/1.5);
 }
 
 void ContainmentField::update(double dt) {
