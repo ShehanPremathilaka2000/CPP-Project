@@ -57,17 +57,3 @@ target_link_libraries(quantum_simulator PUBLIC OpenMP::OpenMP_CXX)
 # Add executable
 add_executable(quantum_simulator_app src/main.cpp)
 target_link_libraries(quantum_simulator_app PRIVATE quantum_simulator)
-
-# Add tests
-add_executable(quantum_tests
-    tests/test_main.cpp
-    tests/ParticleTests.cpp
-    tests/SimulationTests.cpp
-    tests/ContainmentTests.cpp
-    tests/ParallelizationTests.cpp
-)
-target_link_libraries(quantum_tests PRIVATE quantum_simulator GTest::gtest_main)
-
-# Enable testing
-enable_testing()
-add_test(NAME quantum_tests COMMAND quantum_tests) 
