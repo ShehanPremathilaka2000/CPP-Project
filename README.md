@@ -23,8 +23,8 @@ This project simulates the behavior of particles confined within a 2D square fie
 ### Build Instructions
 ```bash
 # 1. Clone the repository (if you haven't already)
-# git clone https://github.com/CodeJam-by-CSE/University-C-.git
-# cd University-C-
+# git clone <repo-url>
+# cd <repo-name>
 
 # 2. Create a build directory
 mkdir build
