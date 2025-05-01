@@ -67,12 +67,6 @@ The simulation will run in the terminal, showing an ASCII representation of part
 │   ├── Particle.cpp
 │   ├── Simulation.cpp
 │   └── ThreadManager.cpp
-├── tests/                 # Unit test source files
-│   ├── ContainmentTests.cpp
-│   ├── ParallelizationTests.cpp
-│   ├── ParticleTests.cpp
-│   ├── SimulationTests.cpp
-│   └── test_main.cpp      # Test runner entry point
 ├── CMakeLists.txt         # Build configuration script
 ├── config.json            # Simulation configuration file
 └── README.md              # This file
