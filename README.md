@@ -78,41 +78,4 @@ The simulation will run in the terminal, showing an ASCII representation of part
 └── README.md              # This file
 ```
 
-## Test Scoring Breakdown (Total 100 Points)
-
-The following points are assigned to each test case, reflecting its relative complexity and the importance of the functionality it covers within the simulation. Passing these tests indicates progress in fixing bugs and ensuring core features work correctly.
-
-**`ParallelizationTests.cpp` (45 Points Total)**
-*   `ParallelizationTest.ThreadCountInitialization`: 2 points (Basic setup check)
-*   `ParallelizationTest.ThreadManagerActivation`: 2 points (Basic setup check)
-*   `ParallelizationTest.ThreadSafeParticleAddition`: 5 points (Tests mutex usage during modification)
-*   `ParallelizationTest.IsParallelized`: 10 points (Overall simulation speedup, complex interaction)
-*   `ParallelizationTest.ParallelPositionUpdates`: 4 points (Benchmarking specific parallel function)
-*   `ParallelizationTest.ParallelForceApplication`: 4 points (Benchmarking specific parallel function)
-*   `ParallelizationTest.ParallelEnergyCalculation`: 4 points (Benchmarking specific parallel function + correctness)
-*   `ParallelizationTest.ParallelCollisionHandling`: 11 points (Benchmarking complex parallel logic)
-*   `ParallelizationTest.ParallelPerformance`: 3 points (Alternative overall simulation speedup check - some overlap with IsParallelized)
-
-**`ContainmentTests.cpp` (14 Points Total)**
-*   `ContainmentFieldTest.FieldSize`: 1 point (Simple getter)
-*   `ContainmentFieldTest.ParticleContainment`: 4 points (Boundary logic and edge cases)
-*   `ContainmentFieldTest.ContainmentForce`: 8 points (Core physics calculation logic)
-*   `ContainmentFieldTest.FieldStrength`: 1 point (Simple getter/setter)
-
-**`ParticleTests.cpp` (23 Points Total)**
-*   `ParticleTest.PositionAndVelocity`: 2 points (Simple getters/setters)
-*   `ParticleTest.EnergyManagement`: 4 points (Bounds checking logic)
-*   `ParticleTest.Collision`: 4 points (Simplified physics interaction)
-*   `ParticleTest.CollisionDetection`: 2 points (Basic distance calculation)
-*   `ParticleTest.ThreadSafety`: 10 points (Concurrent access/modification, core mutex usage)
-*   `ParticleTest.MemoryManagement`: 1 point (Basic object creation check)
-
-**`SimulationTests.cpp` (18 Points Total)**
-*   `SimulationTest.Initialization`: 1 point (Basic setup check)
-*   `SimulationTest.AddParticle`: 2 points (Basic container modification)
-*   `SimulationTest.UpdateSimulation`: 3 points (Checks if overall simulation state changes)
-*   `SimulationTest.EnergyChange`: 3 points (Checks high-level energy behaviour over time)
-*   `SimulationTest.ParticleInteractionAndEscape`: 6 points (Tests interaction leading to removal - involves multiple components)
-*   `SimulationTest.ParallelPerformance`: 3 points (Redundant overall simulation speedup check within this suite)
-
 Good luck with debugging and optimizing the simulation!
