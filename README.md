@@ -28,6 +28,13 @@ This project simulates the behavior of particles confined within a 2D square fie
 - Simple ASCII-based visualization of particle density in the terminal.
 - Intentionally included bugs and areas for performance improvement for educational purposes.
 
+The expected output of the simulation is as follows:
+
+<p align="center">
+    <em>Expected simulation preview in terminal.</em><br>
+    <img src="docs/images/expected preview.gif" alt="Expected Simulation Preview"/>
+</p>
+
 ## Building the Project
 
 ### Prerequisites
@@ -88,6 +95,6 @@ The simulation will run in the terminal, showing an ASCII representation of part
 
 ## IMPORTANT: ThreadManager Implementation
 
-The `ThreadManager` class in this project is incomplete. You MUST use and implement this class for parallelization in the project. Do not use any other parallelization techniques (like OpenMP, async, cuda etc.) You must implement the thread management functionality using the provided ThreadManager class. All parallelization in the project should go through this class. In some test cases we use that class.
+The `ThreadManager` class in this project is incomplete. You MUST use and implement this class for parallelization in the project. Do not use any other parallelization techniques (like OpenMP, std::async, cuda etc.) You must implement the thread management functionality using the provided ThreadManager class. All parallelization in the project should go through this class. In some test cases we use that class.
 
 Good luck with debugging and optimizing the simulation!
