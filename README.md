@@ -16,6 +16,7 @@ This project simulates the behavior of particles confined within a 2D square fie
     <img src="docs/images/Particle Collision Velocity Swap.svg" alt="Particle Collision Velocity Swap Diagram"/>
 </p>
 
+
 - A containment field applying forces to keep particles inside.
 <p align="center">
     The force magnitude increases as the particle approaches the boundary. It is proportional to the field strength and depends on the particle's distance from the nearest edge, reaching its maximum strength just inside the boundary and dropping to zero at the exact center of the field.
