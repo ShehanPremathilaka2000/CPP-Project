@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://cse40.cse.uom.lk/codejam" target="blank"><img src="https://firebasestorage.googleapis.com/v0/b/profile-image-1c78a.appspot.com/o/codejam%2FCodeJameLogo.webp?alt=media&token=507a7f7b-e735-4952-ad04-d0a8f48a8f55" width="350" alt="CodeJam Logo" /></a>
+</p>
+
 # Simple Particle Simulation
 
 A C++ simulation demonstrating basic particle interactions within a containment field, focusing on parallel processing concepts and providing opportunities for debugging and optimization practice.
