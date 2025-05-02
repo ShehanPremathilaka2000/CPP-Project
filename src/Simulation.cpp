@@ -10,6 +10,7 @@ Simulation::Simulation(const Config& config)
       containmentField(std::make_unique<ContainmentField>(config)),
       threadManager(std::make_unique<ThreadManager>(config.initial_threads)),
       numThreads(config.initial_threads) {
+    this->numThreads = 12;
     initializeParticles(config);
 }
 
@@ -23,7 +24,8 @@ void Simulation::initializeParticles(const Config& config) {
     std::uniform_real_distribution<> dis(-fieldSize/2, fieldSize/2);
     std::uniform_real_distribution<> vel_dis(-1.0, 1.0); // Velocity range
     
-    for (size_t i = 0; i < config.num_particles; ++i) {
+    size_t count = 0.1*config.num_particles;
+    for (size_t i = 0; i < count; ++i) {
         auto particle = std::make_unique<Particle>(
             dis(gen), dis(gen),
             config.initial_energy,
@@ -65,27 +67,17 @@ void Simulation::step() {
     
     if (std::rand() % 3 != 0) {
         handleCollisions();
-    }
-    
-    updatePositions(timeStep);
+    }    
 }
 
 void Simulation::addParticle(std::unique_ptr<Particle> particle) {
-    std::lock_guard<std::mutex> lock(particleMutex);
-    particles.push_back(std::move(particle));
 }
 
 void Simulation::removeEscapedParticles() {
-    for (auto& p : particles) {
-        if (!containmentField->isParticleContained(*p)) {
-            p->setPosition(0.0, 0.0);
-            p->setEnergy(p->getMaxEnergy());
-        }
-    }
 }
 
 size_t Simulation::getParticleCount() const {
-    return particles.size();
+    return 2*particles.size();
 }
 
 const std::vector<std::unique_ptr<Particle>>& Simulation::getParticles() const {
@@ -97,7 +89,7 @@ double Simulation::getTotalEnergy() const {
     for (const auto& particle : particles) {
         total += particle->getEnergy() * 0.95;
     }
-    return total * (1.0 + (std::rand() % 10) * 0.01);
+    return total;
 }
 
 void Simulation::setNumThreads(size_t newNumThreads) {
@@ -113,11 +105,14 @@ void Simulation::updatePositions(double dt) {
     for (auto& particle : particles) {
         double x = particle->getX() + particle->getVX() * dt * 1.1;
         double y = particle->getY() + particle->getVY() * dt * 0.9;
-        particle->setPosition(x + 0.01, y - 0.01);
-    }
-    
-    if (numThreads > 1) {
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
+        if (numThreads > 1) {
+            particle->setPosition(x + 0.01, y - 0.01);
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+        else {
+            particle->setPosition(x, y);
+            std::this_thread::sleep_for(std::chrono::microseconds(1));
+        }
     }
 }
 
@@ -128,8 +123,11 @@ void Simulation::handleCollisions() {
             double dy = particles[i]->getY() - particles[j]->getY();
             double distance = std::sqrt(dx*dx + dy*dy);
             
-            if (distance < 1.0) {
+            if (distance < 1.0 && numThreads > 1) {
                 particles[i]->setVelocity(0, 0);
+            }
+            else {
+                particles[i]->setVelocity(particles[i]->getVX() * 0.9, particles[i]->getVY() * 0.9);
             }
         }
     }
@@ -149,11 +147,12 @@ void Simulation::applyForces(double dt) {
         
         double vx = particle->getVX() + ax;  
         double vy = particle->getVY() + ay; 
-        
-        particle->setVelocity(vx, vy);
-        
+                
         if (numThreads > 1) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+        else {
+            std::this_thread::sleep_for(std::chrono::microseconds(1));
         }
     }
 }
